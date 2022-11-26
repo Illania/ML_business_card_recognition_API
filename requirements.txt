@@ -1,0 +1,10 @@
+transformers
+pillow
+tesseract
+pytesseract
+imutils
+opencv-python
+scipy
+torch
+torchvision
+streamlit
