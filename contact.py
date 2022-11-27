@@ -1,5 +1,3 @@
-import streamlit as st
-
 class Contact(object):
     def __init__(self):
         self.name = 'N/A'
@@ -11,10 +9,10 @@ class Contact(object):
         self.addr = []
         
     def print_contact(self):
-        st.write(f'Name: {self.name}')   
-        st.write(f'Organization: {self.organization}')   
-        st.write(f'Address: {self.addr}')  
-        st.write(f'Job title: {self.job_title}') 
-        st.write(f'Phones: {", ".join(self.phones)}') 
-        st.write(f'Email: {", ".join(self.emails)}') 
-        st.write(f'Website: {", ".join(self.website)}')    
+        print(f'Name: {self.name}')   
+        print(f'Organization: {self.organization}')   
+        print(f'Address: {self.addr}')  
+        print(f'Job title: {self.job_title}') 
+        print(f'Phones: {", ".join(self.phones)}') 
+        print(f'Email: {", ".join(self.emails)}') 
+        print(f'Website: {", ".join(self.website)}')    

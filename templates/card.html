@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/templates/style.css">
+        <title> Business card information for {{filename}} </title>
+    </head>
+
+    <body>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Contact information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Name</td><td>{{contact.name}}</td></tr>
+                                <tr><td>Address</td><td>{{contact.addr}}</td></tr>
+                                <tr><td>Organization</td><td>{{contact.organization}}</td></tr>
+                                <tr><td>Job title</td><td>{{contact.job_title}}</td></tr>
+                                <tr><td>Phones</td><td>{{'; '.join(contact.phones)}}</td></tr>
+                                <tr><td>Emails</td><td>{{'; '.join(contact.emails)}}</td></tr>
+                                <tr><td>Websites</td><td>{{'; '.join(contact.website)}}</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>&emsp;</td>
+                    <td>
+                        <img src="/{{folder}}{{filename}}" style="width:500px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
