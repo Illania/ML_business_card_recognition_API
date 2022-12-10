@@ -14,3 +14,5 @@ jinja2
 starlette
 werkzeug
 httpx
+jsonpickle
+json
