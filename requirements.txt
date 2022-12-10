@@ -13,3 +13,4 @@ python-multipart
 jinja2
 starlette
 werkzeug
+httpx
