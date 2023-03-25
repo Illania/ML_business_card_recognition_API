@@ -43,24 +43,24 @@ uvicorn main:api
 
 3. Перед запуском приложения необходимо установить движок оптического распознавания символов Tesseract OCR, используя следующие команды (все нижеприведенные команды представлены для MacOS и Linux, для Windows они могут отличаться):
 
-Для Linux:
+### Для Linux:
 ```
 apt install tesseract-ocr
 apt install libtesseract-dev
 ```
-Для MacOS:
+### Для MacOS:
 ```
 brew install tesseract
 ```
 
 После установки движка Tesseract возможно придется также поменять путь к движку Tesseract, задаваемому в файле text_recognizer.py:
 
-Для Linux:
+### Для Linux:
 ```
 pytesseract.pytesseract.tesseract_cmd = ( r'/usr/bin/tesseract' )
 ```
 
-Для MacOS:
+### Для MacOS:
 ```
 pytesseract.pytesseract.tesseract_cmd = ( r'/usr/local/bin/tesseract' )
 ```
