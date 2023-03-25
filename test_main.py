@@ -7,7 +7,7 @@ from main import app
 from contact_recognizer import get_contact_from_card
 import jsonpickle
 import json
-
+import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract"
 
