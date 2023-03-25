@@ -1,5 +1,26 @@
 [flake8]
-ignore = E203, E266, E501, W503, F403, F401
-max-line-length = 79
-max-complexity = 18
+
+# Set the maximum length that any line (with some exceptions) may be
+max-line-length = 127
+
+# Set the maximum allowed McCabe complexity value for a block of code
+max-complexity = 10
+
+# Specify the list of error codes you wish Flake8 to report
 select = B,C,E,F,W,T4,B9
+
+# Count the number of occurrences of each error/warning code and print a report
+statistics = True
+
+# Force Flake8 to use the exit status code 0 even if there are errors
+exit-zero = True
+
+# Print the source code generating the error/warning in question
+show-source = True
+
+# redirect all output to the specified flake_output.txt
+output-file=flake_output.txt dir/
+
+# also print output to std
+tee = True 
+
