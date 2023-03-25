@@ -1,7 +1,7 @@
 import os
 import sys
 from fastapi.testclient import TestClient
-from main import app
+from .main import app
 from contact_recognizer import get_contact_from_card
 import jsonpickle
 import json
