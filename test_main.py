@@ -1,13 +1,13 @@
 import os
 import sys
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
 from fastapi.testclient import TestClient
-from .main import app
+from main import app
 from contact_recognizer import get_contact_from_card
 import jsonpickle
 import json
 
-file_dir = os.path.dirname(__file__)
-sys.path.append(file_dir)
 
 client = TestClient(app)
 
