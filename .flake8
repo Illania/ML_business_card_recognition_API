@@ -19,7 +19,7 @@ exit-zero = True
 show-source = True
 
 # redirect all output to the specified flake_output.txt
-output-file=flake_output.txt dir/
+output-file = flake_output.txt dir/
 
 # also print output to std
 tee = True 
