@@ -9,6 +9,9 @@ import jsonpickle
 import json
 
 
+pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract"
+
+
 client = TestClient(app)
 
 
