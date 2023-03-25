@@ -12,6 +12,7 @@ from text_recognizer import get_text
 from bert_model import get_tokens
 from contact import Contact
 
+
 def recognize_contact(text):
     contact = Contact()
     ner_list = get_tokens(text)
@@ -22,12 +23,13 @@ def recognize_contact(text):
     contact.phones = get_phones(text)
     contact.emails = get_emails(text)
     contact.website = get_websites(text)
-    return contact 
+    return contact
+
 
 def get_contact_from_card(file_path):
     with open(file_path, "rb") as image:
         image_data = image.read()
-        pil_img = Image.open(io.BytesIO(image_data)).convert('RGB') 
+        pil_img = Image.open(io.BytesIO(image_data)).convert("RGB")
         business_card = detect_contours(pil_img)
         text = get_text(business_card)
         contact = recognize_contact(text)
