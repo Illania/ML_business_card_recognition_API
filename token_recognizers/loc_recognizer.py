@@ -8,8 +8,7 @@ def get_loc(ner_list):
                 loc.append(ner_dict["word"])
             else:
                 loc_tmp.append([loc])
-                loc = []
-                loc.append(ner_dict["word"])
+                loc = [ner_dict["word"]]
         elif ner_dict["entity"] == "I-LOC":
             loc.append(ner_dict["word"])
     loc_tmp.append([loc])

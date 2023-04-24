@@ -14,6 +14,6 @@ def load_tokenizer():
 def get_tokens(text):
     bert_model = load_model()
     bert_tokenizer = load_tokenizer()
-    nlp = pipeline("ner", model=bert_model, tokenizer=bert_tokenizer)
-    ner_list = nlp(text)
+    nlp_pipeline = pipeline("ner", model=bert_model, tokenizer=bert_tokenizer)
+    ner_list = nlp_pipeline(text)
     return ner_list

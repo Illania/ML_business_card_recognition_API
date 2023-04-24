@@ -24,7 +24,7 @@ app.mount("/templates", StaticFiles(directory="templates"), name="templates")
 
 @app.get("/")
 async def docs_redirect():
-    """Launchs start page. Just redirects to API documentation."""
+    """Launches start page. Just redirects to API documentation."""
     return RedirectResponse(url="/docs")
 
 
