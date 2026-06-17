@@ -1,79 +1,193 @@
-# Проект распознавания визитных карточек с использованием библиотек OpenCV, Tesseract и предобученной GOOGLE Bert модели с сайта HuggingFace.
-Веб-сайт используемой модели: https://huggingface.co/dslim/bert-large-NER
+# Business Card Recognition Project Using OpenCV, Tesseract, and a Pretrained Google BERT Model
 
-## Структура проекта
-ML_business_card_recognition_api/ </br>
-├── __init__.py  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                             Файл инициализации модуля </br>
-├── main.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;                          Главный файл, определяющий API </br>
-├── test_main.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                            Файл с тестами</br>
-├── bert_model.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                           Файл загрузки BERT модели </br>
-├── card_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Распознаватель контура </br>
-├── contact_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;Распознаватель контактного лица</br>
-├── contact.py  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                                          Класс описания сущности контактного лица</br>
-├── data/   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;                                               Папка с дополнительными данными</br>
-&emsp;└── jobs  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                                  Текстовый файл с перечнем профессий</br>
-├── templates/ &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Папка html шаблонов</br>
-&emsp;└── card.html &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;Файл шаблона результата распознавания</br>
-&emsp;└── style.css &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Файл описания css стилей</br>
-├── uploads/ &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Папка для загрузки файлов</br>
-├── README.md     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                                         Файл описания проекта </br>
-├── requirements.txt  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                                     Файл,содержащий список необходимых библиотек </br>
-├── text_recognizer &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;            Распознаватель текста на базе Tesseract OCR</br>
-├── test_data/   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                                                      Папка с тестовыми изображениями визитных карточек </br>
-&emsp;└── card.jpg &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                                         Тестовый файл изображения визитной карточки </br>
-└── token_recognizers/ &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                                   Папка, содержащая распознаватели отдельных сущностей </br>
-&emsp;├── __init__.py  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;                                         Файл инициализации модуля </br>
-&emsp;├── email_recognizer.py  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;              Распознаватель email адресов </br>
-&emsp;├── job_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;                                 Распознаватель должности </br>
-&emsp;├── loc_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;                     Распознаватель дреса (использует BERT) </br>
-&emsp;├── name_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                    Распознаватель имени и фамилии (использует BERT) </br>
-&emsp;├── org_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                         Распознаватель организации (использует BERT) </br>
-&emsp;├── phone_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;                        Распознаватель телефонных номеров </br>
-&emsp;└── website_recognizer.py &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;                                 Распознаватель веб-сайтов </br>
+This project uses OpenCV, Tesseract OCR, and a pretrained Google BERT model from Hugging Face for extracting contact information from business cards.
 
-## Описание программы, установка и запуск
-1. Программа представляет собой API на фреймворке FastAPI. Приложение запускается из папки приложения следующей командой:
+**Model used:** dslim/bert-large-NER
+https://huggingface.co/dslim/bert-large-NER
+
+---
+
+# Project Structure
+
+```text
+ML_business_card_recognition_api/
+├── __init__.py                     Module initialization file
+├── main.py                         Main API application file
+├── test_main.py                    API test file
+├── bert_model.py                   BERT model loading module
+├── card_recognizer.py              Business card contour detector
+├── contact_recognizer.py           Contact information recognizer
+├── contact.py                      Contact entity class
+├── data/
+│   └── jobs                        Text file containing job titles
+├── templates/
+│   ├── card.html                   Recognition result template
+│   └── style.css                   CSS stylesheet
+├── uploads/                        Uploaded files directory
+├── README.md                       Project documentation
+├── requirements.txt                Python dependencies
+├── text_recognizer.py              Tesseract OCR text recognizer
+├── test_data/
+│   └── card.jpg                    Sample business card image
+└── token_recognizers/
+    ├── __init__.py                 Module initialization file
+    ├── email_recognizer.py         Email recognizer
+    ├── job_recognizer.py           Job title recognizer
+    ├── loc_recognizer.py           Address recognizer (uses BERT)
+    ├── name_recognizer.py          Name recognizer (uses BERT)
+    ├── org_recognizer.py           Organization recognizer (uses BERT)
+    ├── phone_recognizer.py         Phone number recognizer
+    └── website_recognizer.py       Website recognizer
 ```
+
+---
+
+# Description, Installation, and Usage
+
+## 1. Running the Application
+
+The project is implemented as a FastAPI application.
+
+Start the API from the project directory using:
+
+```bash
 uvicorn main:api
 ```
-Приложение по умолчанию разворачивается на локальном хосте http://127.0.0.1:8080.
-На стартовой странице вы можете ознакомиться с полной документацией на данный API.
 
-2. Изображения, загружаемые с помощью API метода ```/upload``` должны иметь формат .jpg, .jpeg или .png и иметь достаточно высокое разрешение, изображение низкого качетсва будет распознано неверно. Внимание, программа распознает визитные карточки только на английском языке! После загрузки изображения на сервер, вы можете просмотреть результаты распознавания с помощью API метода ```/view/filename```, где filename это имя загруженного вами файла.
+By default, the application runs locally at:
 
-3. Перед запуском приложения необходимо установить движок оптического распознавания символов Tesseract OCR, используя следующие команды (все нижеприведенные команды представлены для MacOS и Linux, для Windows они могут отличаться):
-
-### Для Linux:
+```text
+http://127.0.0.1:8080
 ```
+
+The API documentation is available on the homepage after startup.
+
+---
+
+## 2. Uploading and Processing Business Cards
+
+Images uploaded through the `/upload` endpoint must:
+
+* Be in `.jpg`, `.jpeg`, or `.png` format
+* Have sufficiently high resolution
+
+Low-quality images may lead to inaccurate recognition results.
+
+**Note:** The application currently supports business cards written in **English only**.
+
+After uploading an image, recognition results can be viewed through:
+
+```text
+/view/{filename}
+```
+
+where `filename` is the name of the uploaded file.
+
+---
+
+## 3. Installing Tesseract OCR
+
+Before running the application, install the Tesseract OCR engine.
+
+### Linux
+
+```bash
 apt install tesseract-ocr
 apt install libtesseract-dev
 ```
-### Для MacOS:
-```
+
+### macOS
+
+```bash
 brew install tesseract
 ```
 
-После установки движка Tesseract возможно придется также поменять путь к движку Tesseract, задаваемому в файле text_recognizer.py:
+---
 
-### Для Linux:
-```
-pytesseract.pytesseract.tesseract_cmd = ( r'/usr/bin/tesseract' )
+### Configure Tesseract Path
+
+You may need to update the Tesseract executable path in `text_recognizer.py`.
+
+#### Linux
+
+```python
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 ```
 
-### Для MacOS:
-```
-pytesseract.pytesseract.tesseract_cmd = ( r'/usr/local/bin/tesseract' )
+#### macOS
+
+```python
+pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'
 ```
 
-На вашей системе путь может отличаться. Чтобы узнать корректный путь к движку на вашей системе, воспользуйтесь командой which в терминале:
-```
+The location may differ on your system.
+
+To find the correct path, run:
+
+```bash
 which tesseract
 ```
-4. После установки Tesseract неоходимо установить дополнительные библиотеки Python командой: 
-```
+
+---
+
+## 4. Installing Python Dependencies
+
+After installing Tesseract, install the required Python packages:
+
+```bash
 pip install -r requirements.txt
 ```
 
-5. Для тестового запуска приложения можете использовать метод ```/test```.
+---
 
-6. Первичная загрузка модели BERT может занять значительное время, так как размер скачиваемых файлов занимает около 1.33 Гб, так что запаситесь терпением и чашечкой кофе! ☕️ 🍪 ☺️
+## 5. Running a Test Recognition
+
+For a quick test, use the:
+
+```text
+/test
+```
+
+endpoint.
+
+---
+
+## 6. Initial BERT Model Download
+
+The first launch may take a significant amount of time because the pretrained BERT model and its dependencies need to be downloaded.
+
+The total download size is approximately **1.33 GB**, so please be patient and grab a cup of coffee ☕ and a cookie 🍪 while waiting.
+
+---
+
+# Technology Stack
+
+* FastAPI
+* OpenCV
+* Tesseract OCR
+* Hugging Face Transformers
+* Google BERT (dslim/bert-large-NER)
+* Python
+
+# Features
+
+* Business card detection and extraction
+* Optical Character Recognition (OCR)
+* Person name recognition
+* Company name recognition
+* Address recognition
+* Job title recognition
+* Email extraction
+* Phone number extraction
+* Website extraction
+* REST API interface
+* HTML result visualization
+
+# Limitations
+
+* Supports English-language business cards only
+* Recognition accuracy depends on image quality
+* Initial BERT model download requires approximately 1.33 GB of data
+
+```
+```
